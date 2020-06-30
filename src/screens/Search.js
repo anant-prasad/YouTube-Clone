@@ -9,10 +9,13 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import MiniCard from "../components/MiniCard";
 import Constant from "expo-constants";
-import { NavigationContainer } from "@react-navigation/native";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function Search({ navigation }) {
-  const [miniCardData, setMiniCardData] = React.useState([]);
+  const dispatch = useDispatch();
+  const miniCardData = useSelector((state) => {
+    return state;
+  });
   const [search, setSearch] = React.useState("");
   const [loading, setLoading] = React.useState(false);
 
@@ -23,7 +26,8 @@ export default function Search({ navigation }) {
       .then((res) => res.json())
       .then((data) => {
         setLoading(false);
-        setMiniCardData(data.items);
+        dispatch({ type: "add", payload: data.items });
+        // setMiniCardData(data.items);
       });
   };
 
