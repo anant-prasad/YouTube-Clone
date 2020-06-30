@@ -1,14 +1,18 @@
 import React from "react";
 import { Text, View } from "react-native";
 import { Entypo, AntDesign, MaterialIcons } from "@expo/vector-icons";
+import Constant from "expo-constants";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Header() {
+  const navigation = useNavigation();
   const myColor = "#212121";
   return (
     <View
       style={{
         height: 45,
         backgroundColor: "white",
+        marginTop: Constant.statusBarHeight + 5,
 
         flexDirection: "row",
         justifyContent: "space-between",
@@ -50,7 +54,12 @@ export default function Header() {
         }}
       >
         <AntDesign name="videocamera" size={22} color={myColor} />
-        <AntDesign name="search1" size={22} color={myColor} />
+        <AntDesign
+          name="search1"
+          size={22}
+          color={myColor}
+          onPress={() => navigation.navigate("search")}
+        />
         <MaterialIcons name="account-circle" size={22} color={myColor} />
       </View>
     </View>

@@ -8,11 +8,14 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import MiniCard from "../components/MiniCard";
+import Constant from "expo-constants";
+import { NavigationContainer } from "@react-navigation/native";
 
-export default function Search() {
+export default function Search({ navigation }) {
   const [miniCardData, setMiniCardData] = React.useState([]);
   const [search, setSearch] = React.useState("");
   const [loading, setLoading] = React.useState(false);
+
   const fetchData = () => {
     setLoading(true);
     fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=${search}&type=video&key=AIzaSyDICbWkKOtbUVlHr-BgIWGcqSyuuuLo-Cs
@@ -25,7 +28,7 @@ export default function Search() {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, marginTop: Constant.statusBarHeight + 5 }}>
       <View
         style={{
           padding: 5,
@@ -34,7 +37,11 @@ export default function Search() {
           elevation: 4,
         }}
       >
-        <Ionicons name="md-arrow-back" size={32} />
+        <Ionicons
+          name="md-arrow-back"
+          size={32}
+          onPress={() => navigation.goBack()}
+        />
         <TextInput
           value={search}
           onChangeText={(text) => setSearch(text)}
