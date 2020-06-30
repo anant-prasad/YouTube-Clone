@@ -2,9 +2,11 @@ import React from "react";
 import { View, Image, Text, Dimensions } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useTheme } from "@react-navigation/native";
 
 export default function Card(props) {
+  const { colors } = useTheme();
+  const textcolor = colors.textColor;
   const navigation = useNavigation();
   return (
     <TouchableOpacity
@@ -42,6 +44,7 @@ export default function Card(props) {
               style={{
                 fontSize: 15,
                 fontWeight: "bold",
+                color: textcolor,
                 width: Dimensions.get("screen").width - 70,
               }}
               ellipsizeMode="tail"
@@ -49,7 +52,13 @@ export default function Card(props) {
             >
               {props.title}
             </Text>
-            <Text>{props.channel}</Text>
+            <Text
+              style={{
+                color: textcolor,
+              }}
+            >
+              {props.channel}
+            </Text>
           </View>
         </View>
       </View>

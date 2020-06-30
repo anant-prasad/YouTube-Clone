@@ -1,6 +1,11 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
+import {
+  NavigationContainer,
+  DefaultTheme,
+  DarkTheme,
+  useTheme,
+} from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Home from "./src/screens/Home";
@@ -10,15 +15,45 @@ import Explore from "./src/screens/Explore";
 import Subscribed from "./src/screens/Subscribed";
 import { MaterialIcons } from "@expo/vector-icons";
 
-import { Provider } from "react-redux";
-import { createStore } from "redux";
+import { Provider, useSelector } from "react-redux";
+import { themeReducer } from "./src/Reducers/themeReducer";
+import { createStore, combineReducers } from "redux";
 import { reducer } from "./src/Reducers/reducers";
-const store = createStore(reducer);
+
+const customDarkTheme = {
+  ...DarkTheme,
+  colors: {
+    ...DarkTheme.colors,
+    headerColor: "#404040",
+    iconColor: "white",
+    tabIcons: "white",
+    textColor: "white",
+  },
+};
+
+const customDefaultTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    headerColor: "white",
+    iconColor: "black",
+    tabIcons: "red",
+    textColor: "black",
+  },
+};
+
+const rootReducer = combineReducers({
+  cardData: reducer,
+  myDarkMode: themeReducer,
+});
+
+const store = createStore(rootReducer);
 
 const Stack = createStackNavigator();
 const Tabs = createBottomTabNavigator();
 
 const RootHome = () => {
+  const { colors } = useTheme();
   return (
     <Tabs.Navigator
       screenOptions={({ route }) => ({
@@ -37,7 +72,7 @@ const RootHome = () => {
         },
       })}
       tabBarOptions={{
-        activeTintColor: "red",
+        activeTintColor: colors.tabIcons,
         inactiveTintColor: "gray",
       }}
     >
@@ -48,10 +83,23 @@ const RootHome = () => {
   );
 };
 
-export default function App() {
+export default () => {
   return (
     <Provider store={store}>
-      <NavigationContainer>
+      <Navigation></Navigation>
+    </Provider>
+  );
+};
+export function Navigation() {
+  let currentTheme = useSelector((state) => {
+    return state.myDarkMode;
+  });
+
+  return (
+    <Provider store={store}>
+      <NavigationContainer
+        theme={currentTheme ? customDarkTheme : customDefaultTheme}
+      >
         <Stack.Navigator headerMode="none">
           <Stack.Screen name="rootHome" component={RootHome} />
           <Stack.Screen name="search" component={Search} />

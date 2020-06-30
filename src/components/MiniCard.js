@@ -1,9 +1,11 @@
 import React from "react";
 import { View, Text, Dimensions, Image, TouchableOpacity } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useTheme } from "@react-navigation/native";
 
 export default function MiniCard(props) {
   const navigation = useNavigation();
+  const { colors } = useTheme();
+  const textcolor = colors.textColor;
   return (
     <TouchableOpacity
       onPress={() =>
@@ -27,6 +29,7 @@ export default function MiniCard(props) {
           <Text
             style={{
               fontSize: 15,
+              color: textcolor,
               width: Dimensions.get("screen").width / 2,
             }}
             ellipsizeMode="tail"
@@ -34,7 +37,9 @@ export default function MiniCard(props) {
           >
             {props.title}
           </Text>
-          <Text style={{ fontSize: 12 }}>{props.channel}</Text>
+          <Text style={{ fontSize: 12, color: textcolor }}>
+            {props.channel}
+          </Text>
         </View>
       </View>
     </TouchableOpacity>

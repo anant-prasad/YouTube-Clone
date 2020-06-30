@@ -6,15 +6,18 @@ import {
   FlatList,
   ActivityIndicator,
 } from "react-native";
+import { useTheme } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import MiniCard from "../components/MiniCard";
 import Constant from "expo-constants";
 import { useSelector, useDispatch } from "react-redux";
 
 export default function Search({ navigation }) {
+  const { colors } = useTheme();
+  const myColor = colors.iconColor;
   const dispatch = useDispatch();
   const miniCardData = useSelector((state) => {
-    return state;
+    return state.cardData;
   });
   const [search, setSearch] = React.useState("");
   const [loading, setLoading] = React.useState(false);
@@ -39,10 +42,14 @@ export default function Search({ navigation }) {
           flexDirection: "row",
           justifyContent: "space-around",
           elevation: 4,
+          backgroundColor: colors.headerColor,
         }}
       >
         <Ionicons
           name="md-arrow-back"
+          style={{
+            color: myColor,
+          }}
           size={32}
           onPress={() => navigation.goBack()}
         />
@@ -59,6 +66,9 @@ export default function Search({ navigation }) {
         />
         <Ionicons
           name="md-send"
+          style={{
+            color: myColor,
+          }}
           size={32}
           onPress={() => {
             fetchData();

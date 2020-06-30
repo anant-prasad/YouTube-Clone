@@ -32,7 +32,7 @@ const LittleCard = ({ title }) => {
 
 export default function Explore() {
   const CardData = useSelector((state) => {
-    return state;
+    return state.cardData;
   });
   return (
     <View
