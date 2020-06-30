@@ -1,7 +1,6 @@
 import React from "react";
 import { Text, View } from "react-native";
 import { Entypo, AntDesign, MaterialIcons } from "@expo/vector-icons";
-import Constant from "expo-constants";
 
 export default function Header() {
   const myColor = "#212121";
@@ -10,7 +9,7 @@ export default function Header() {
       style={{
         height: 45,
         backgroundColor: "white",
-        marginTop: Constant.statusBarHeight + 5,
+
         flexDirection: "row",
         justifyContent: "space-between",
         elevation: 4,
