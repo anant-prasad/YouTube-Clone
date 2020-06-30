@@ -1,10 +1,29 @@
 import React from "react";
-import { View, TextInput, ScrollView } from "react-native";
+import {
+  View,
+  TextInput,
+  ScrollView,
+  FlatList,
+  ActivityIndicator,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import MiniCard from "../components/MiniCard";
 
 export default function Search() {
+  const [miniCardData, setMiniCardData] = React.useState([]);
   const [search, setSearch] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
+  const fetchData = () => {
+    setLoading(true);
+    fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=${search}&type=video&key=AIzaSyDICbWkKOtbUVlHr-BgIWGcqSyuuuLo-Cs
+      `)
+      .then((res) => res.json())
+      .then((data) => {
+        setLoading(false);
+        setMiniCardData(data.items);
+      });
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <View
@@ -27,21 +46,30 @@ export default function Search() {
             borderBottomWidth: 2,
           }}
         />
-        <Ionicons name="md-send" size={32} />
+        <Ionicons
+          name="md-send"
+          size={32}
+          onPress={() => {
+            fetchData();
+          }}
+        />
       </View>
-      <ScrollView>
-        <MiniCard />
-        <MiniCard />
-        <MiniCard />
-        <MiniCard />
-        <MiniCard />
-        <MiniCard />
-        <MiniCard />
-        <MiniCard />
-        <MiniCard />
-        <MiniCard />
-        <MiniCard />
-      </ScrollView>
+      {loading && (
+        <ActivityIndicator style={{ marginTop: 10 }} size="large" color="red" />
+      )}
+      <FlatList
+        data={miniCardData}
+        renderItem={({ item }) => {
+          return (
+            <MiniCard
+              videoId={item.id.videoId}
+              title={item.snippet.title}
+              channel={item.snippet.channelTitle}
+            />
+          );
+        }}
+        keyExtractor={(item) => item.id.videoId}
+      />
     </View>
   );
 }
