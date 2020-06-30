@@ -2,13 +2,12 @@ import React from "react";
 import { View, Image, Text, Dimensions } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
-export default function Card() {
+export default function Card(props) {
   return (
     <View style={{ marginBottom: 3 }}>
       <Image
         source={{
-          uri:
-            "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80",
+          uri: `https://i.ytimg.com/vi/${props.videoId}/hqdefault.jpg`,
         }}
         style={{
           width: "100%",
@@ -37,12 +36,9 @@ export default function Card() {
             ellipsizeMode="tail"
             numberOfLines={2}
           >
-            I'm baby salvia man bun shoreditch brunch semiotics truffaut keytar
-            fanny pack. Art party ramps keffiyeh cardigan chicharrones hell of
-            shaman gentrify chambray squid neutra pok pok fanny pack health goth
-            YOLO.
+            {props.title}
           </Text>
-          <Text>Austin mixtape hammock shaman pitchfork</Text>
+          <Text>{props.channel}</Text>
         </View>
       </View>
     </View>
